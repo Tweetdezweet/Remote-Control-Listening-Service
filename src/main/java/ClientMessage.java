@@ -34,8 +34,4 @@ public class ClientMessage {
     public void setEventText(String eventText) {
         this.eventText = eventText;
     }
-
-    public void performAction(){
-        System.out.println(toString());
-    }
 }

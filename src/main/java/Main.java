@@ -1,4 +1,7 @@
 import com.google.gson.Gson;
+import devices.action.KeyboardAction;
+import xml.ActionMappings;
+import xml.KeyMappings;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -29,6 +32,9 @@ public class Main {
     private static ClientMessage clientMessage;
     private static Gson gson = new Gson();
 
+    private static String previousDestination;
+    private static ActionMappings actionMappings;
+
     private static Robot robot;
 
     public static void main(String[] args){
@@ -46,7 +52,12 @@ public class Main {
                 System.out.println("Message received:");
                 System.out.println(message);
 
-                clientMessage.performAction();
+                if(previousDestination == null || ! previousDestination.equals(clientMessage.getEventDestination())){
+                    actionMappings = new ActionMappings(clientMessage.getEventDestination());
+                }
+
+                KeyboardAction keyboardAction = actionMappings.getKeyboardAction(clientMessage.getEventAction());
+                keyboardAction.performActionOn(robot);
             }
 
             System.out.println("Client has disconnected");

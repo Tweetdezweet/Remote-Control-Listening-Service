@@ -1,9 +1,12 @@
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import xml.ActionMappings;
+import xml.KeyMappings;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,14 +46,25 @@ public class SublimeLaunchTest {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        }
 
-        String filePath = "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\vlc.xml";
-        String myXml = null;
-        try {
-            myXml = readFile(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        System.out.println(myXml);
+//        String filePath = "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\vlc.xml";
+//        String myXml = null;
+//        try {
+//            myXml = readFile(filePath);
+//        } catch (IOException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//        System.out.println(myXml);
+
+//        KeyMappings keyMappings = new KeyMappings();
+//        System.out.println("KeyMappings Example");
+//        System.out.println(keyMappings.getKeyCode("V"));
+
+        System.out.println();
+//        KeyEvent.VK_SHIFT
+        System.out.println("ActionMappings Example");
+        ActionMappings actionMappings = new ActionMappings("vlc");
+        actionMappings.getKeyboardAction("volumeUp");
+//        System.out.println(actionMappings.getKeyboardAction(stop));
     }
 
     private static String readFile(String path) throws IOException {

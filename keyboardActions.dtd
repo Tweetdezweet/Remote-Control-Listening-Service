@@ -1,8 +1,6 @@
-<!DOCTYPE actions [
 <!ELEMENT actions (action*)>
     <!ELEMENT action (key,modifier*)>
     <!ELEMENT key (#PCDATA)>
     <!ELEMENT modifier (#PCDATA)>
 
-<!ATTLIST action id CDATA #REQUIRED>
-]>
+<!ATTLIST action id ID #REQUIRED>
