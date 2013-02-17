@@ -16,112 +16,115 @@ import java.net.Socket;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
+
+
+
+    private static final int PORT = 4444;
+
     private static ServerSocket serverSocket;
     private static Socket clientSocket;
     private static InputStreamReader inputStreamReader;
     private static BufferedReader bufferedReader;
     private static String message;
     private static ClientMessage clientMessage;
+    private static Gson gson = new Gson();
 
     private static Robot robot;
 
-    private static boolean keepConnectionAlive = true;
-
     public static void main(String[] args){
-        try {
-            serverSocket = new ServerSocket(4444);  //Server socket
 
-        } catch (IOException e) {
-            System.out.println("Could not listen on port: 4444");
+        createRobot();
+        createServerSocket();
+
+        while (true){
+
+            waitForClientToConnect();
+
+            while ( isClientConnected()){
+                clientMessage = gson.fromJson(message, ClientMessage.class);
+
+                System.out.println("Message received:");
+                System.out.println(message);
+
+                clientMessage.performAction();
+            }
+
+            System.out.println("Client has disconnected");
+            try {
+                inputStreamReader.close();
+                clientSocket.close();
+            } catch (Exception e) {
+                System.out.println("Could not close inputStreamReader and/or clientSocket");
+            }
+
         }
+    }
 
-        System.out.println("Server started. Listening to the port 4444");
-
-        Gson gson = new Gson();
+    private static void createRobot(){
         try {
             robot = new Robot();
         } catch (AWTException e) {
             System.out.println("Robot could not be instantiated");
         }
+    }
 
+    private static void createServerSocket() {
+        try {
+            serverSocket = new ServerSocket(PORT);  //Server socket
+        } catch (IOException e) {
+            System.out.println("Could not create a server socket");
+        }
+
+        System.out.println("Server started. Listening to the port " + PORT);
+    }
+
+    private static void waitForClientToConnect(){
         if(robot != null){
-            try {
                 System.out.println("Waiting to accept connection");
+            try {
                 clientSocket = serverSocket.accept();   //accept the client connection
                 inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader); //get the client message
                 System.out.println("Client has connected, starting messageloop");
-
-
-                while ( (message = bufferedReader.readLine()) != null && keepConnectionAlive){
-
-                    clientMessage = gson.fromJson(message, ClientMessage.class);
-
-                    System.out.println("Message received:");
-                    System.out.println(message);
-
-                    handleJsonMessage();
-
-                }
-                System.out.println("Service is closing down");
-                inputStreamReader.close();
-                clientSocket.close();
-
-            } catch (IOException ex) {
-                System.out.println("Problem in message reading");
+            } catch (IOException e) {
+                System.out.println("Something went wrong with establishing a connection to the client");
             }
+
         }
     }
 
-    private static void handleJsonMessage(){
-        switch (clientMessage.getEventClass()){
-            case MessageCode.CLASS_SERVICE      :   killService();
-                                                    break;
-            case MessageCode.CLASS_TEXT_MESSAGE :   handleTextMessage();
-                                                    break;
-            case MessageCode.CLASS_PROGRAM:   handleProgram();
-                                                    break;
-            case MessageCode.CLASS_VLC          :   handleVLC();
-                                                    break;
+    private static boolean isClientConnected(){
+        try {
+            return (message = bufferedReader.readLine()) != null;
+        } catch (IOException e) {
+            System.out.println("Something went wrong with reading from the bufferedReader");
+            return false;
         }
     }
-
-    private static void killService(){
-        keepConnectionAlive = false;
-    }
-
-    private static void handleTextMessage(){
-        System.out.println(clientMessage.getEventText());
-    }
-
-    private static void handleProgram(){
-//        TODO: stub method
-    }
-
-    private static void handleVLC(){
-        switch (clientMessage.getEventAction()){
-            case MessageCode.VLC_VOLUME_DOWN    :   vlcVolumeDown();
-                                                    break;
-            case MessageCode.VLC_VOLUME_UP      :   vlcVolumeUp();
-                                                    break;
-        }
-    }
-
-    private static void vlcVolumeUp(){
-//        robot.keyPress(KeyEvent.VK_SPACE);
-//        robot.keyRelease(KeyEvent.VK_SPACE);
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_UP);
-
-        robot.keyRelease(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
-    }
-
-    private static void vlcVolumeDown(){
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_DOWN);
-
-        robot.keyRelease(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_DOWN);
-    }
+//    private static void handleVLC(){
+//        switch (clientMessage.getEventAction()){
+//            case MessageCode.VLC_VOLUME_DOWN    :   vlcVolumeDown();
+//                                                    break;
+//            case MessageCode.VLC_VOLUME_UP      :   vlcVolumeUp();
+//                                                    break;
+//        }
+//    }
+//
+//    private static void vlcVolumeUp(){
+////        robot.keyPress(KeyEvent.VK_SPACE);
+////        robot.keyRelease(KeyEvent.VK_SPACE);
+//        robot.keyPress(KeyEvent.VK_CONTROL);
+//        robot.keyPress(KeyEvent.VK_UP);
+//
+//        robot.keyRelease(KeyEvent.VK_UP);
+//        robot.keyRelease(KeyEvent.VK_CONTROL);
+//    }
+//
+//    private static void vlcVolumeDown(){
+//        robot.keyPress(KeyEvent.VK_CONTROL);
+//        robot.keyPress(KeyEvent.VK_DOWN);
+//
+//        robot.keyRelease(KeyEvent.VK_UP);
+//        robot.keyRelease(KeyEvent.VK_DOWN);
+//    }
 }

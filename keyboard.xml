@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE keymappings SYSTEM "keymappings.dtd">
+    <keymappings>
+    <keymap id="A">65</keymap>
+    <keymap id="B">66</keymap>
+    <keymap id="C">67</keymap>
+    <keymap id="D">68</keymap>
+    <keymap id="E">69</keymap>
+    <keymap id="F">70</keymap>
+    <keymap id="G">71</keymap>
+    <keymap id="H">72</keymap>
+    <keymap id="I">73</keymap>
+    <keymap id="J">74</keymap>
+    <keymap id="K">75</keymap>
+    <keymap id="L">76</keymap>
+    <keymap id="M">77</keymap>
+    <keymap id="N">78</keymap>
+    <keymap id="O">79</keymap>
+    <keymap id="P">80</keymap>
+    <keymap id="Q">81</keymap>
+    <keymap id="R">82</keymap>
+    <keymap id="S">83</keymap>
+    <keymap id="T">84</keymap>
+    <keymap id="U">85</keymap>
+    <keymap id="V">86</keymap>
+    <keymap id="W">87</keymap>
+    <keymap id="X">88</keymap>
+    <keymap id="Y">89</keymap>
+    <keymap id="Z">90</keymap>
+
+    <keymap id="SPACE">32</keymap>
+
+    <keymap id="LEFT">37</keymap>
+    <keymap id="UP">38</keymap>
+    <keymap id="RIGHT">39</keymap>
+    <keymap id="DOWN">40</keymap>
+
+    <keymap id="SHIFT">16</keymap>
+    <keymap id="CONTROL">17</keymap>
+    <keymap id="ALT">18</keymap>
+    </keymappings>

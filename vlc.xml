@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE actions SYSTEM "actions.dtd">
+<actions>
+    <action id="fullScreen">
+        <key>F</key>
+    </action>
+
+    <action id="power">
+        <key>Q</key>
+        <modifier>CONTROL</modifier>
+    </action>
+
+    <action id="aspectRatio">
+        <key>A</key>
+    </action>
+
+    <action id="play_pause">
+        <key>SPACE</key>
+    </action>
+
+    <action id="next">
+        <key>N</key>
+    </action>
+
+    <action id="previous">
+        <key>P</key>
+    </action>
+
+    <action id="volumeUp">
+        <key>UP</key>
+        <modifier>CONTROL</modifier>
+    </action>
+
+    <action id="volumeDown">
+        <key>DOWN</key>
+        <modifier>CONTROL</modifier>
+    </action>
+
+    <action id="fastForward">
+        <key>RIGHT</key>
+        <modifier>SHIFT</modifier>
+    </action>
+
+    <action id="rewind">
+        <key>LEFT</key>
+        <modifier>SHIFT</modifier>
+    </action>
+
+    <action id="mute">
+        <key>M</key>
+    </action>
+</actions>

@@ -7,33 +7,24 @@
  */
 public class ClientMessage {
 
-    private int eventClass;
-    private int eventAction;
-    private int eventActionType;
+    private String eventDestination;
+    private String eventAction;
     private String eventText;
 
-    public int getEventClass() {
-        return eventClass;
+    public String getEventDestination() {
+        return eventDestination;
     }
 
-    public void setEventClass(int eventClass) {
-        this.eventClass = eventClass;
+    public void setEventDestination(String eventDestination) {
+        this.eventDestination = eventDestination;
     }
 
-    public int getEventAction() {
+    public String getEventAction() {
         return eventAction;
     }
 
-    public void setEventAction(int eventAction) {
+    public void setEventAction(String eventAction) {
         this.eventAction = eventAction;
-    }
-
-    public int getEventActionType() {
-        return eventActionType;
-    }
-
-    public void setEventActionType(int eventActionType) {
-        this.eventActionType = eventActionType;
     }
 
     public String getEventText() {
@@ -42,5 +33,9 @@ public class ClientMessage {
 
     public void setEventText(String eventText) {
         this.eventText = eventText;
+    }
+
+    public void performAction(){
+        System.out.println(toString());
     }
 }

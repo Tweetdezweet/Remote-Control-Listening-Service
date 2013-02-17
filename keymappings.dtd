@@ -1,0 +1,6 @@
+<!DOCTYPE keymappings [
+    <!ELEMENT keymappings (keymap*)>
+    <!ELEMENT keymap (#PCDATA)>
+
+    <!ATTLIST keymap id CDATA #REQUIRED>
+    ]>
