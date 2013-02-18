@@ -17,9 +17,10 @@ import java.io.File;
  * To change this template use File | Settings | File Templates.
  */
 public class KeyMappings {
+    /*private static final String XML_PATH =
+            "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\keyboard.xml";*/
     private static final String XML_PATH =
-            "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\keyboard.xml";
-
+            "/home/koen/repositories/pccontrollerservice/keyboard.xml";
 
     protected Document dom;
 

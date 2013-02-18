@@ -20,8 +20,10 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ActionMappings {
+    /*private static final String XML_BASE_PATH =
+            "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\";*/
     private static final String XML_BASE_PATH =
-            "C:\\Users\\KoenG\\Documents\\Android-projects\\PcControllerService\\";
+            "home/koen/repositories/pccontrollerservice/";
     private String xmlFileName;
     private Element element;
 
@@ -40,7 +42,10 @@ public class ActionMappings {
         dbf.setIgnoringElementContentWhitespace(true);
         try{
             DocumentBuilder db = dbf.newDocumentBuilder();
-            dom = db.parse(new File(XML_BASE_PATH + xmlFileName + ".xml"));
+            // on windows platform
+            //dom = db.parse(new File(XML_BASE_PATH + xmlFileName + ".xml"));
+            // on linux platform
+            dom = db.parse(new File(xmlFileName + ".xml"));
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
