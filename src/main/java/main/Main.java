@@ -1,5 +1,8 @@
+package main;
+
 import com.google.gson.Gson;
 import devices.action.KeyboardAction;
+import gui.ControllerSystemTray;
 import xml.ActionMappings;
 import xml.KeyMappings;
 
@@ -36,8 +39,16 @@ public class Main {
     private static ActionMappings actionMappings;
 
     private static Robot robot;
+    private static ControllerSystemTray systemTray;
 
     public static void main(String[] args){
+
+        systemTray = new ControllerSystemTray();
+        try {
+            systemTray.buildSystemTray();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         createRobot();
         createServerSocket();
@@ -84,21 +95,25 @@ public class Main {
             serverSocket = new ServerSocket(PORT);  //Server socket
         } catch (IOException e) {
             System.out.println("Could not create a server socket");
+            e.printStackTrace();
         }
-
+        systemTray.showListeningForClients();
         System.out.println("Server started. Listening to the port " + PORT);
     }
 
     private static void waitForClientToConnect(){
         if(robot != null){
                 System.out.println("Waiting to accept connection");
+                systemTray.showListeningForClients();
             try {
                 clientSocket = serverSocket.accept();   //accept the client connection
                 inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader); //get the client message
                 System.out.println("Client has connected, starting messageloop");
+                systemTray.showClientIsConnected();
             } catch (IOException e) {
                 System.out.println("Something went wrong with establishing a connection to the client");
+                systemTray.showErrorIcon();
             }
 
         }
@@ -109,6 +124,7 @@ public class Main {
             return (message = bufferedReader.readLine()) != null;
         } catch (IOException e) {
             System.out.println("Something went wrong with reading from the bufferedReader");
+            systemTray.showErrorIcon();
             return false;
         }
     }

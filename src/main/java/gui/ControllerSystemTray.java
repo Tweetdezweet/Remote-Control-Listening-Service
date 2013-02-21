@@ -1,6 +1,10 @@
 package gui;
 
+import main.Main;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 
@@ -13,6 +17,7 @@ import java.io.IOException;
  */
 public class ControllerSystemTray {
 
+    private static Main main;
 
     private static PopupMenu popUp = new PopupMenu();
     private static Image iconGreen = Toolkit.getDefaultToolkit().getImage("androidLogo.png");
@@ -21,12 +26,10 @@ public class ControllerSystemTray {
 
     private static SystemTray systemTray;
 
-    private static Double trayHeight;
-    private static int width;
     private static TrayIcon trayIcon;
+
     private static MenuItem aboutItem;
-    private static CheckboxMenuItem listenCheckboxItem;
-    private static CheckboxMenuItem cb2;
+
     private static Menu optionsMenu;
     private static MenuItem errorItem;
     private static MenuItem warningItem;
@@ -34,21 +37,35 @@ public class ControllerSystemTray {
     private static MenuItem noneItem;
     private static MenuItem exitItem;
 
-    private ControllerSystemTray(){
+    public ControllerSystemTray(Main mainProcess){
+        main = mainProcess;
         systemTray = SystemTray.getSystemTray();
     }
 
-    public static void buildSystemTray() throws IOException {
+    public void buildSystemTray() throws IOException {
         //Check the SystemTray is supported
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
             return;
         }
 
-        initializeTrayIcon();
+        scaleIconImages();
 
         createPopUpMenuComponents();
         addComponentsToPopUpMenu();
+
+        initializeTrayIcon();
+    }
+
+    private static void scaleIconImages(){
+        Double trayHeight = systemTray.getTrayIconSize().getHeight();
+        iconRed = iconRed.getScaledInstance(-1, trayHeight.intValue(), Image.SCALE_SMOOTH);
+        iconOrange = iconOrange.getScaledInstance(-1, trayHeight.intValue(), Image.SCALE_SMOOTH);
+        iconGreen = iconGreen.getScaledInstance(-1, trayHeight.intValue(), Image.SCALE_SMOOTH);
+    }
+
+    private static void initializeTrayIcon(){
+        trayIcon = new TrayIcon(iconRed);
         trayIcon.setPopupMenu(popUp);
 
         try {
@@ -58,17 +75,11 @@ public class ControllerSystemTray {
         }
     }
 
-    private static void initializeTrayIcon(){
-        trayHeight = systemTray.getTrayIconSize().getHeight();
-
-        width = new TrayIcon(iconGreen).getSize().width;int trayIconWidth = width;
-        trayIcon = new TrayIcon(iconGreen.getScaledInstance(-1, trayHeight.intValue(), Image.SCALE_SMOOTH));
-    }
-
     private static void createPopUpMenuComponents(){
         aboutItem = new MenuItem("About");
         optionsMenu = new Menu("Options");
         exitItem = new MenuItem("Exit");
+
     }
 
     private static void addComponentsToPopUpMenu(){
@@ -81,5 +92,37 @@ public class ControllerSystemTray {
         //optionsMenu.add(infoItem);
         //optionsMenu.add(noneItem);
         popUp.add(exitItem);
+    }
+
+    public void showClientIsConnected(){
+        trayIcon.setImage(iconGreen);
+    }
+
+    public void showListeningForClients(){
+        trayIcon.setImage(iconOrange);
+    }
+
+    public void showErrorIcon(){
+        trayIcon.setImage(iconRed);
+    }
+
+    /**
+     * Created with IntelliJ IDEA.
+     * User: koen
+     * Date: 2/21/13
+     * Time: 3:11 PM
+     * To change this template use File | Settings | File Templates.
+     */
+    public static class AboutItem extends MenuItem implements ActionListener {
+
+        public AboutItem(String title){
+            super(title);
+            addActionListener(this);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
     }
 }
