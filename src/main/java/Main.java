@@ -112,30 +112,4 @@ public class Main {
             return false;
         }
     }
-//    private static void handleVLC(){
-//        switch (clientMessage.getEventAction()){
-//            case MessageCode.VLC_VOLUME_DOWN    :   vlcVolumeDown();
-//                                                    break;
-//            case MessageCode.VLC_VOLUME_UP      :   vlcVolumeUp();
-//                                                    break;
-//        }
-//    }
-//
-//    private static void vlcVolumeUp(){
-////        robot.keyPress(KeyEvent.VK_SPACE);
-////        robot.keyRelease(KeyEvent.VK_SPACE);
-//        robot.keyPress(KeyEvent.VK_CONTROL);
-//        robot.keyPress(KeyEvent.VK_UP);
-//
-//        robot.keyRelease(KeyEvent.VK_UP);
-//        robot.keyRelease(KeyEvent.VK_CONTROL);
-//    }
-//
-//    private static void vlcVolumeDown(){
-//        robot.keyPress(KeyEvent.VK_CONTROL);
-//        robot.keyPress(KeyEvent.VK_DOWN);
-//
-//        robot.keyRelease(KeyEvent.VK_UP);
-//        robot.keyRelease(KeyEvent.VK_DOWN);
-//    }
 }
