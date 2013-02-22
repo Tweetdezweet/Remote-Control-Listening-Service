@@ -1,6 +1,6 @@
 package gui;
 
-import main.Main;
+import main.NetworkService;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class ControllerSystemTray {
 
-    private static Main main;
+    private static NetworkService networkService;
 
     private static PopupMenu popUp = new PopupMenu();
     private static Image iconGreen = Toolkit.getDefaultToolkit().getImage("androidLogo.png");
@@ -37,8 +37,8 @@ public class ControllerSystemTray {
     private static MenuItem noneItem;
     private static MenuItem exitItem;
 
-    public ControllerSystemTray(Main mainProcess){
-        main = mainProcess;
+    public ControllerSystemTray(NetworkService networkServiceProcess){
+        networkService = networkServiceProcess;
         systemTray = SystemTray.getSystemTray();
     }
 
@@ -76,9 +76,9 @@ public class ControllerSystemTray {
     }
 
     private static void createPopUpMenuComponents(){
-        aboutItem = new MenuItem("About");
+        aboutItem = new TrayMenuItem("About");
         optionsMenu = new Menu("Options");
-        exitItem = new MenuItem("Exit");
+        exitItem = new TrayMenuItem("Exit");
 
     }
 
@@ -113,16 +113,22 @@ public class ControllerSystemTray {
      * Time: 3:11 PM
      * To change this template use File | Settings | File Templates.
      */
-    public static class AboutItem extends MenuItem implements ActionListener {
+    public static class TrayMenuItem extends MenuItem implements ActionListener {
 
-        public AboutItem(String title){
+        public TrayMenuItem(String title){
             super(title);
             addActionListener(this);
         }
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            String actionCommand = actionEvent.getActionCommand();
+            if(actionCommand.equals("About")) {
+                networkService.onClickAbout();
+            } else if (actionCommand.equals("Exit")) {
+                networkService.onClickExit();
+            }
+            //System.out.println("User clicked on " + actionCommand);
         }
     }
 }

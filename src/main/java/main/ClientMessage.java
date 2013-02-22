@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Created with IntelliJ IDEA.
  * User: KoenG

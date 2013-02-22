@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import devices.action.KeyboardAction;
 import gui.ControllerSystemTray;
 import xml.ActionMappings;
-import xml.KeyMappings;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,9 +19,9 @@ import java.net.Socket;
  * Time: 10:56
  * To change this template use File | Settings | File Templates.
  */
-public class Main {
+public class NetworkService implements Runnable{
 
-
+    private static boolean keepProcessAlive = true;
 
     private static final int PORT = 4444;
 
@@ -39,21 +37,13 @@ public class Main {
     private static ActionMappings actionMappings;
 
     private static Robot robot;
-    private static ControllerSystemTray systemTray;
 
-    public static void main(String[] args){
-
-        systemTray = new ControllerSystemTray();
-        try {
-            systemTray.buildSystemTray();
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+    public void start(){
 
         createRobot();
         createServerSocket();
 
-        while (true){
+        while (keepProcessAlive){
 
             waitForClientToConnect();
 
@@ -97,23 +87,19 @@ public class Main {
             System.out.println("Could not create a server socket");
             e.printStackTrace();
         }
-        systemTray.showListeningForClients();
         System.out.println("Server started. Listening to the port " + PORT);
     }
 
     private static void waitForClientToConnect(){
         if(robot != null){
                 System.out.println("Waiting to accept connection");
-                systemTray.showListeningForClients();
             try {
                 clientSocket = serverSocket.accept();   //accept the client connection
                 inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader); //get the client message
                 System.out.println("Client has connected, starting messageloop");
-                systemTray.showClientIsConnected();
             } catch (IOException e) {
                 System.out.println("Something went wrong with establishing a connection to the client");
-                systemTray.showErrorIcon();
             }
 
         }
@@ -124,8 +110,20 @@ public class Main {
             return (message = bufferedReader.readLine()) != null;
         } catch (IOException e) {
             System.out.println("Something went wrong with reading from the bufferedReader");
-            systemTray.showErrorIcon();
             return false;
         }
+    }
+
+    public void onClickAbout(){
+        System.out.println("User clicked on About in tray menu");
+    }
+
+    public void onClickExit(){
+        keepProcessAlive = false;
+    }
+
+    @Override
+    public void run() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
