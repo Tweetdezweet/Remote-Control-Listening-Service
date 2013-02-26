@@ -98,7 +98,7 @@ public class NetworkService implements Runnable{
                 inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader); //get the client message
                 System.out.println("Client has connected, starting messageloop");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("Something went wrong with establishing a connection to the client");
             }
 
@@ -108,7 +108,7 @@ public class NetworkService implements Runnable{
     private static boolean isClientConnected(){
         try {
             return (message = bufferedReader.readLine()) != null;
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Something went wrong with reading from the bufferedReader");
             return false;
         }
@@ -120,10 +120,15 @@ public class NetworkService implements Runnable{
 
     public void onClickExit(){
         keepProcessAlive = false;
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     @Override
     public void run() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        start();
     }
 }

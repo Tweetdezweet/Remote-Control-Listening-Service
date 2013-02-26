@@ -127,6 +127,8 @@ public class ControllerSystemTray {
                 networkService.onClickAbout();
             } else if (actionCommand.equals("Exit")) {
                 networkService.onClickExit();
+                System.exit(0);
+
             }
             //System.out.println("User clicked on " + actionCommand);
         }

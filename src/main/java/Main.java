@@ -24,6 +24,7 @@ public class Main {
 
         Thread serviceThread = new Thread(networkServiceProcess);
 
+        serviceThread.start();
 
     }
 }
